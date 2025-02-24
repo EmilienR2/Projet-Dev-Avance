@@ -4,10 +4,16 @@ const { Service } = require('@hapipal/schmervice');
 
 module.exports = class MovieService extends Service {
 
-    create(movie) {
+    async create(movie) {
         const { Movie } = this.server.models();
+        const { notificationService } = this.server.services();
         
-        return Movie.query().insertAndFetch(movie);
+        const newMovie = await Movie.query().insertAndFetch(movie);
+        
+        // Envoyer une notification à tous les utilisateurs
+        await notificationService.notifyNewMovie(newMovie);
+        
+        return newMovie;
     }
 
     list() {
@@ -22,10 +28,16 @@ module.exports = class MovieService extends Service {
         return Movie.query().findById(id);
     }
 
-    update(id, movieInfo) {
+    async update(id, movieInfo) {
         const { Movie } = this.server.models();
+        const { notificationService } = this.server.services();
         
-        return Movie.query().patchAndFetchById(id, movieInfo);
+        const updatedMovie = await Movie.query().patchAndFetchById(id, movieInfo);
+        
+        // Envoyer une notification aux utilisateurs qui ont ce film en favoris
+        await notificationService.notifyMovieUpdate(updatedMovie);
+        
+        return updatedMovie;
     }
 
     delete(id) {

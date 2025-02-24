@@ -60,4 +60,12 @@ module.exports = class FavoriteService extends Service {
             
         return !!favorite;
     }
+
+    async findByMovie(movieId) {
+        const { Favorite } = this.server.models();
+        
+        return Favorite.query()
+            .where('movieId', movieId)
+            .orderBy('createdAt', 'desc');
+    }
 };
