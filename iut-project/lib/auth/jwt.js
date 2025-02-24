@@ -20,7 +20,10 @@ module.exports = {
             validate: (artifacts, request, h) => {
                 return {
                     isValid: true,
-                    credentials: artifacts.decoded.payload
+                    credentials: {
+                        ...artifacts.decoded.payload,
+                        scope: artifacts.decoded.payload.scope
+                    }
                 };
             }
         });

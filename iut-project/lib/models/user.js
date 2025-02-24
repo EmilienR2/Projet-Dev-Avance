@@ -33,4 +33,8 @@ module.exports = class User extends Model {
     $beforeUpdate(opt, queryContext) {
         this.updatedAt = new Date();
     }
+
+    static get jsonAttributes() {
+        return ['scope'];
+    }
 };
