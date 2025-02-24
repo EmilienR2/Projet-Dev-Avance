@@ -16,7 +16,7 @@ module.exports = class User extends Model {
             lastName: Joi.string().min(3).example('Doe').description('Lastname of the user'),
             username: Joi.string().min(3).required().example('johndoe').description('Username for login'),
             password: Joi.string().min(8).required().description('User password - Must contain at least 8 characters'),
-            mail: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] } }).required()
+            mail: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr', 'email'] } }).required()
                 .example('john.doe@example.com').description('User email address'),
             role: Joi.string().valid('user', 'admin').default('user').description('User role - Either user or admin'),
             createdAt: Joi.date(),

@@ -6,20 +6,30 @@ const Jwt = require('@hapi/jwt');
 
 module.exports = class UserService extends Service {
 
-        create(user) {
+        async create(user) {
              const { User } = this.server.models();
+             const { emailService } = this.server.services();
              
-             // Hash password with SHA-1
-             const hashedPassword = Crypto.createHash('sha1')
-                                        .update(user.password)
-                                        .digest('hex');
+             try {
+                 // Hash password with SHA-1
+                 const hashedPassword = Crypto.createHash('sha1')
+                                            .update(user.password)
+                                            .digest('hex');
 
-             const userToCreate = {
-                ...user,
-                password: hashedPassword
-             };
-        
-             return User.query().insertAndFetch(userToCreate);
+                 const userToCreate = {
+                    ...user,
+                    password: hashedPassword
+                 };
+            
+                 const createdUser = await User.query().insertAndFetch(userToCreate);
+                 
+                 // Envoyer l'email de bienvenue
+                 await emailService.sendWelcomeEmail(createdUser);
+                 
+                 return createdUser;
+             } catch (error) {
+                 throw error;
+             }
         }    
 
         list() {

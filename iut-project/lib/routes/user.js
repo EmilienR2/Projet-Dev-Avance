@@ -15,7 +15,7 @@ module.exports = [{
             lastName: Joi.string().required().min(3).example('Doe').description('Lastname of the user'),
             username: Joi.string().required().min(3).example('johndoe').description('Username for login'),
             password: Joi.string().required().min(8).description('User password - Must contain at least 8 characters'),
-            mail: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr'] } })
+            mail: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'fr', 'email'] } })
                 .required().example('john.doe@example.com').description('User email address'),
             role: Joi.string().valid('user', 'admin').default('user').description('User role - Either user or admin')
           })
