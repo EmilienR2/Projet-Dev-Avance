@@ -21,7 +21,7 @@ Cette API RESTful permet la gestion des utilisateurs avec authentification JWT e
 
 1. Clonez le repository
 ```bash
-git clone <votre-repo>
+git clone https://github.com/EmilienR2/Projet-Dev-Avance.git
 cd iut-project
 ```
 
